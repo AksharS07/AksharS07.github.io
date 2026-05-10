@@ -10,7 +10,7 @@
 ## 🌐 Live Preview
 **Check out the live site here:** [akshars07.github.io](https://akshars07.github.io)
 
-*(Note: Add a screenshot of your finished portfolio here later by replacing this text with `![Portfolio Preview](assets/img/portfolio-preview.jpg)`)*
+*![Portfolio Preview](assets/img/portfolio-preview.jpg)`)*
 
 ---
 
