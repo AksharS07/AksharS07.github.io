@@ -15,33 +15,31 @@
 ---
 
 ## 👨‍💻 About Me
-I am a second-year engineering student at Mangalore Institute of Technology and Engineering (MITE) specializing in **Computer Science**, with a strong focus on the **Internet of Things (IoT)**, **Cybersecurity**, and **Blockchain Technology**. I serve as the Class Representative for my department and am passionate about hardware prototyping, logic formulation, and working within Linux environments.
+I am a second-year engineering student at Mangalore Institute of Technology and Engineering (MITE) specializing in **Computer Science**, on **Internet of Things (IoT)**, **Cybersecurity**, and **Blockchain Technology**. I am passionate about software prototyping, logic formulation.
 
 ---
 
 ## 🛠️ Tech Stack & Architecture
-This portfolio was built natively without heavy frameworks to prioritize load speed, DOM control, and complex animation sequencing.
+This portfolio was built natively without heavy UI frameworks to prioritize load speed, DOM control, and complex animation sequencing.
 
-* **Markup & Styling:** HTML5, Modern CSS3 (CSS Variables, Grid, Flexbox)
+* **Markup & Styling:** HTML5, Modern CSS (Grid, Flexbox, Noise & Vignette overlays)
 * **Interactivity:** Vanilla JavaScript
 * **Animation Engine:** GSAP (GreenSock Animation Platform) & ScrollTrigger
 * **Smooth Scrolling:** Lenis.js
-
+* **Typography:** Inter & JetBrains Mono
 ---
 
 ## ✨ Key Features
-* **Creative Developer UI:** A custom dark-mode aesthetic with an emphasis on modern typography and high-contrast elements.
-* **Custom Interactions:** Features a custom trailing cursor and interactive hover states.
-* **Staggered Reveals:** Implements GSAP for buttery-smooth, scroll-triggered DOM element reveals and text-splitting animations.
-* **Fully Responsive:** Fluid layout that adapts seamlessly from desktop to mobile screens.
+* **Interactive Canvas:** Features a dynamic `<canvas>` background and ambient floating orbs.
+* **Custom Cursor System:** Implements a custom `.cursor` and `.cursor-trail` that reacts to user navigation.
+* **Staggered Text Reveals:** Uses GSAP for buttery-smooth, letter-by-letter text splitting animations on the hero section (`#name` and `.char-wrap`).
+* **Modern Layout:** Clean, dark-mode aesthetic with fixed corner navigational elements, magnetic links, and a scroll-progress bar.
 
 ---
 
-## 🚀 Highlighted Projects & Experience
-* **Electricity Demand Forecasting:** Developing a predictive model for Smart Grids using data analytics and algorithmic forecasting.
-* **Web Dash 3.0 Lead Organizer:** Coordinated and managed a large-scale technical UI design competition at MITE.
-* **Cybersecurity Fundamentals:** Official ISC2 Candidate.
-* **Hardware Prototyping:** Direct experience with ESP-32S3 microcontroller boards and physical computing.
+## 🚀 Current Focus & Skills
+* **Languages:** Python, C++, C, Java, HTML, CSS.
+* **Project Status:** The project vault is currently in progress. My software portfolio is brewing in the background, and something clean and modern is on the way.
 
 ---
 
