@@ -42,6 +42,14 @@ This portfolio was built natively without heavy UI frameworks to prioritize load
 * **Project Status:** The project vault is currently in progress. My software portfolio is brewing in the background, and something clean and modern is on the way.
 
 ---
+---
+
+## ⚖️ Usage & Attribution
+You are welcome to fork this repository and use this code as a template for your own personal portfolio. However, **you must give explicit credit**. 
+
+If you use this design or codebase, you must:
+1. Keep the original MIT `LICENSE` file intact in your repository.
+2. Include a visible attribution link in your site's footer pointing back to this repository (e.g., *"Template adapted from [Akshar Srijan](https://github.com/AksharS07/AksharS07.github.io)"*).
 
 ## 💻 Local Installation & Setup
 If you want to explore the code locally, feel free to fork or clone this repository.
