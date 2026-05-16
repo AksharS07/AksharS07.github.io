@@ -103,6 +103,15 @@
   const trail = document.getElementById("trail");
   if (!cursor || !trail) return;
 
+  const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+  if (isTouchDevice) {
+    document.body.classList.add("no-custom-cursor");
+    return;
+  }
+
+  cursor.style.display = "block";
+  trail.style.display = "block";
+
   let mouseX = window.innerWidth / 2;
   let mouseY = window.innerHeight / 2;
   let trailX = mouseX;
@@ -117,6 +126,18 @@
   document.querySelectorAll("a, button").forEach((el) => {
     el.addEventListener("mouseenter", () => cursor.classList.add("hover"));
     el.addEventListener("mouseleave", () => cursor.classList.remove("hover"));
+  });
+
+  const nameElement = document.querySelector(".name");
+  document.querySelectorAll(".char-wrap").forEach((wrap) => {
+    wrap.addEventListener("mouseenter", () => {
+      wrap.classList.add("hovered");
+      nameElement?.classList.add("hover-active");
+    });
+    wrap.addEventListener("mouseleave", () => {
+      wrap.classList.remove("hovered");
+      nameElement?.classList.remove("hover-active");
+    });
   });
 
   function animateTrail() {
@@ -213,12 +234,22 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Scroll progress bar
   const progressBar = document.getElementById("scroll-progress-bar");
-  window.addEventListener("scroll", () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    if (progressBar) progressBar.style.width = `${progress}%`;
-  });
+  let progressTicking = false;
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (progressTicking) return;
+      progressTicking = true;
+      requestAnimationFrame(() => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        if (progressBar) progressBar.style.width = `${progress}%`;
+        progressTicking = false;
+      });
+    },
+    { passive: true }
+  );
 
   // Active nav link observer
   const links = [...document.querySelectorAll(".nav-links a")];
