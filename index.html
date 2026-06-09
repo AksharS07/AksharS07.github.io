@@ -93,20 +93,16 @@
     </section>
 
     <section class="projects-section" id="projects">
-      <div class="section-label">Projects & Milestones</div>
-      <h2 class="section-title">Project vault opening soon.</h2>
-      <div class="projects-grid">
-        <article class="project-card coming-soon-card coming-stage">
-          <div class="card-tag">// Loading</div>
-          <h3 class="coming-title">COMING SOON</h3>
-          <p class="card-desc">My software portfolio is brewing in the background. Something clean and modern is on the way.</p>
-          <div class="loading-minimal" aria-hidden="true">
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-          </div>
-          <div class="loading-caption">In progress</div>
-        </article>
+      <div class="projects-header">
+        <div class="section-label">Projects &amp; Milestones</div>
+        <button class="selector-toggle" id="selector-toggle" aria-label="Configure displayed repositories" title="Choose which repos to display">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 1.8 2.45"/><path d="M21.37 10.5A10 10 0 0 1 21.5 12"/><path d="M19.07 19.07a10 10 0 0 1-2.45 1.8"/><path d="M13.5 21.37A10 10 0 0 1 12 21.5"/><path d="M4.93 19.07a10 10 0 0 1-1.8-2.45"/><path d="M2.63 13.5A10 10 0 0 1 2.5 12"/><path d="M4.93 4.93a10 10 0 0 1 2.45-1.8"/><path d="M10.5 2.63A10 10 0 0 1 12 2.5"/></svg>
+          <span>Manage Repos</span>
+        </button>
+      </div>
+      <h2 class="section-title" id="projects-title">What I've built.</h2>
+      <div class="projects-grid" id="projects-grid">
+        <!-- Dynamically populated by scripts.js -->
       </div>
     </section>
 

@@ -7,6 +7,7 @@
   const nodes = [];
   const nodeCount = 80;
   const mouse = { x: -9999, y: -9999 };
+  const ripples = [];
 
   function resize() {
     canvas.width = window.innerWidth;
@@ -83,6 +84,38 @@
       ctx.fill();
     }
 
+    // Draw mouse glow halo
+    if (mouse.x > 0 && mouse.x < canvas.width) {
+      const g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 90);
+      g.addColorStop(0, "rgba(79,142,247,0.07)");
+      g.addColorStop(1, "rgba(79,142,247,0)");
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(mouse.x, mouse.y, 90, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Draw and decay ripples
+    for (let i = ripples.length - 1; i >= 0; i--) {
+      const rpl = ripples[i];
+      rpl.r += 4;
+      rpl.alpha -= 0.013;
+      if (rpl.alpha <= 0 || rpl.r > rpl.maxR) { ripples.splice(i, 1); continue; }
+      ctx.strokeStyle = `rgba(79,142,247,${rpl.alpha})`;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(rpl.x, rpl.y, rpl.r, 0, Math.PI * 2);
+      ctx.stroke();
+      // Inner trailing ring (accent2 color)
+      if (rpl.r > 22) {
+        ctx.strokeStyle = `rgba(167,139,250,${rpl.alpha * 0.35})`;
+        ctx.lineWidth = 0.8;
+        ctx.beginPath();
+        ctx.arc(rpl.x, rpl.y, rpl.r - 20, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+    }
+
     requestAnimationFrame(updateAndDraw);
   }
 
@@ -90,6 +123,21 @@
   window.addEventListener("mousemove", (e) => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
+  });
+  canvas.addEventListener("click", (e) => {
+    // Spawn ripple
+    ripples.push({ x: e.clientX, y: e.clientY, r: 0, maxR: 190, alpha: 0.55 });
+    // Shockwave: push particles outward
+    nodes.forEach((node) => {
+      const dx = node.x - e.clientX;
+      const dy = node.y - e.clientY;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 230 && dist > 0) {
+        const force = (1 - dist / 230) * 2.8;
+        node.vx += (dx / dist) * force;
+        node.vy += (dy / dist) * force;
+      }
+    });
   });
 
   resize();
@@ -494,3 +542,464 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// ── Module 7 – GitHub Repos ────────────────────────────────────────────────
+(function githubRepos() {
+  const GITHUB_USER = "AksharS07";
+  const CONFIG_KEY = "portfolio_repos_config";
+  const IS_LOCAL = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
+
+  // ── Helpers ──────────────────────────────────────────────────────────────
+
+  /** Fetch repos.json — the source of truth for all visitors. */
+  async function fetchReposJson() {
+    try {
+      const res = await fetch("repos.json?v=" + Date.now());
+      if (!res.ok) return null;
+      const list = await res.json();
+      return Array.isArray(list) ? list : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /** Convert a flat name array into the internal {name:{enabled}} map. */
+  function listToCfg(list) {
+    const cfg = {};
+    list.forEach((name) => { cfg[name] = { enabled: true }; });
+    return cfg;
+  }
+
+  function loadConfig() {
+    try {
+      const raw = localStorage.getItem(CONFIG_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function saveConfig(cfg) {
+    try {
+      localStorage.setItem(CONFIG_KEY, JSON.stringify(cfg));
+    } catch (_) {}
+  }
+
+  /** Fetch a single repo; returns null on failure. */
+  async function fetchRepo(name) {
+    try {
+      const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${name}`);
+      if (!res.ok) return null;
+      return res.json();
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /** Fetch languages for a single repo; returns [] on failure. */
+  async function fetchLanguages(name) {
+    try {
+      const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${name}/languages`);
+      if (!res.ok) return [];
+      const obj = await res.json();
+      return Object.keys(obj);
+    } catch (_) {
+      return [];
+    }
+  }
+
+  /** Fetch all public repos for the user (up to 100, sorted by updated). */
+  async function fetchAllPublicRepos() {
+    try {
+      const res = await fetch(
+        `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`
+      );
+      if (!res.ok) return [];
+      return res.json();
+    } catch (_) {
+      return [];
+    }
+  }
+
+  // ── Card rendering ────────────────────────────────────────────────────────
+
+  function buildRepoCard(repo, langs) {
+    const name = repo.name;
+    const desc = repo.description || "No description provided.";
+    const url  = repo.html_url;
+
+    const langPills = langs
+      .slice(0, 4)
+      .map((l) => `<span class="lang-pill">${l}</span>`)
+      .join("");
+
+    return `
+      <article class="repo-card" aria-label="${name}">
+        <div class="repo-card-tag">// repo</div>
+        <div class="repo-card-top">
+          <span class="repo-card-name">${name}</span>
+          <a class="repo-card-link" href="${url}" target="_blank" rel="noopener noreferrer"
+             aria-label="Open ${name} on GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </a>
+        </div>
+        <!-- Hover overlay -->
+        <div class="repo-card-overlay" aria-hidden="true">
+          <p class="repo-overlay-desc">${desc}</p>
+          ${langs.length ? `<div class="repo-overlay-langs">${langPills}</div>` : ""}
+          <div class="repo-overlay-actions">
+            <a class="repo-overlay-btn" href="${url}" target="_blank" rel="noopener noreferrer">
+              View on GitHub →
+            </a>
+          </div>
+        </div>
+      </article>`;
+  }
+
+  function buildNextCard() {
+    return `
+      <article class="repo-card next-card" aria-label="Next project — coming soon">
+        <div class="repo-card-tag">// next</div>
+
+        <div class="next-card-inner">
+          <div class="next-card-left">
+            <div class="next-glitch-wrap">
+              <span class="next-glitch-name" data-text="???">???</span>
+            </div>
+          </div>
+          <div class="next-card-right">
+            <div class="next-redacted" aria-hidden="true">
+              <span class="next-redact-bar" style="width:100%"></span>
+              <span class="next-redact-bar" style="width:62%"></span>
+              <span class="next-redact-bar" style="width:80%"></span>
+            </div>
+            <div class="next-progress-track" aria-hidden="true">
+              <div class="next-progress-fill"></div>
+            </div>
+            <div class="next-status-line">
+              building<span class="next-blink">_</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="next-hover-hint" aria-hidden="true">Something is cooking...</div>
+      </article>`;
+  }
+
+  function buildSkeletons(count) {
+    return Array.from({ length: count }, () => `<div class="repo-skeleton"></div>`).join("");
+  }
+
+  // ── Animate new cards (called after injection) ────────────────────────────
+
+  function animateNewCards(cards) {
+    if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
+
+    cards.forEach((card, index) => {
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 50, scale: 0.97 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.75,
+          delay: index * 0.08,
+          ease: "power3.out",
+          scrollTrigger: { trigger: card, start: "top 85%" }
+        }
+      );
+
+      gsap.fromTo(
+        card,
+        { y: 20, rotateX: 3 },
+        {
+          y: -14,
+          rotateX: -2,
+          ease: "none",
+          scrollTrigger: {
+            trigger: card,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.1
+          }
+        }
+      );
+    });
+  }
+
+  // ── Render grid ───────────────────────────────────────────────────────────
+
+  async function renderGrid(cfg) {
+    const grid = document.getElementById("projects-grid");
+    if (!grid) return;
+
+    const enabledNames = Object.keys(cfg).filter((k) => cfg[k].enabled);
+
+    if (enabledNames.length === 0) {
+      grid.innerHTML = `
+        <p style="font-family:var(--mono);font-size:0.8rem;color:var(--fg-muted);letter-spacing:0.05em;padding:2rem 0;">
+          No repos selected &mdash; click &ldquo;Manage Repos&rdquo; to choose some.
+        </p>`;
+      return;
+    }
+
+    // Show skeletons while loading.
+    grid.innerHTML = buildSkeletons(enabledNames.length);
+
+    // Fetch all repos in parallel.
+    const results = await Promise.all(
+      enabledNames.map(async (name) => {
+        const [repo, langs] = await Promise.all([fetchRepo(name), fetchLanguages(name)]);
+        return { name, repo, langs };
+      })
+    );
+
+    const cardsHtml = results
+      .filter((r) => r.repo !== null)
+      .map((r) => buildRepoCard(r.repo, r.langs))
+      .join("");
+
+    grid.innerHTML = cardsHtml + buildNextCard();
+
+    // Bind hover cursor class to new cards.
+    const cursor = document.getElementById("cursor");
+    grid.querySelectorAll(".repo-card:not(.next-card) a, .repo-card:not(.next-card) button").forEach((el) => {
+      if (!cursor) return;
+      el.addEventListener("mouseenter", () => cursor.classList.add("hover"));
+      el.addEventListener("mouseleave", () => cursor.classList.remove("hover"));
+    });
+
+    // Double-click any real repo card to open GitHub in a new tab.
+    grid.querySelectorAll(".repo-card:not(.next-card)").forEach((card) => {
+      const url = card.querySelector(".repo-card-link")?.href;
+      if (!url) return;
+      card.addEventListener("dblclick", () => {
+        window.open(url, "_blank", "noopener,noreferrer");
+      });
+    });
+
+    // Animate.
+    const newCards = [...grid.querySelectorAll(".repo-card")];
+    animateNewCards(newCards);
+  }
+
+  // ── Selector panel ────────────────────────────────────────────────────────
+
+  function buildSelectorPanel(allRepos, cfg) {
+    // Remove old panel if it exists.
+    document.getElementById("repo-selector-panel")?.remove();
+    document.getElementById("repo-selector-overlay")?.remove();
+
+    const overlay = document.createElement("div");
+    overlay.className = "selector-overlay";
+    overlay.id = "repo-selector-overlay";
+
+    const panel = document.createElement("div");
+    panel.className = "selector-panel";
+    panel.id = "repo-selector-panel";
+    panel.setAttribute("role", "dialog");
+    panel.setAttribute("aria-label", "Repository selector");
+
+    const listHtml = allRepos
+      .map((repo) => {
+        const isChecked = cfg[repo.name]?.enabled ?? false;
+        const checkedClass = isChecked ? "checked" : "";
+        const desc = repo.description
+          ? repo.description.slice(0, 60) + (repo.description.length > 60 ? "…" : "")
+          : "";
+        return `
+          <div class="selector-item ${checkedClass}" data-repo="${repo.name}" role="checkbox" aria-checked="${isChecked}" tabindex="0">
+            <div class="selector-checkbox">
+              <span class="selector-checkbox-tick">✓</span>
+            </div>
+            <div class="selector-item-info">
+              <div class="selector-item-name">${repo.name}</div>
+              ${desc ? `<div class="selector-item-desc">${desc}</div>` : ""}
+            </div>
+          </div>`;
+      })
+      .join("");
+
+    panel.innerHTML = `
+      <div class="selector-panel-header">
+        <span class="selector-panel-title">// Manage Repos</span>
+        <button class="selector-panel-close" aria-label="Close" id="selector-panel-close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <p class="selector-panel-subtitle">
+        Check the repositories you want displayed in the Projects section.
+        Your selection is saved locally.
+      </p>
+      <div class="selector-list" id="selector-list">
+        ${listHtml}
+      </div>
+      <div class="selector-panel-footer">
+        <button class="selector-btn selector-btn-cancel" id="selector-btn-cancel">Cancel</button>
+        <button class="selector-btn selector-btn-apply" id="selector-btn-apply">Apply</button>
+      </div>`;
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(panel);
+
+    // Checkbox toggle logic.
+    panel.querySelectorAll(".selector-item").forEach((item) => {
+      function toggle() {
+        item.classList.toggle("checked");
+        item.setAttribute("aria-checked", item.classList.contains("checked").toString());
+      }
+      item.addEventListener("click", toggle);
+      item.addEventListener("keydown", (e) => {
+        if (e.key === " " || e.key === "Enter") { e.preventDefault(); toggle(); }
+      });
+    });
+
+    function closePanel() {
+      panel.classList.remove("open");
+      overlay.classList.remove("open");
+      document.getElementById("selector-toggle")?.classList.remove("open");
+    }
+
+    document.getElementById("selector-panel-close").addEventListener("click", closePanel);
+    document.getElementById("selector-btn-cancel").addEventListener("click", closePanel);
+    overlay.addEventListener("click", closePanel);
+
+    document.getElementById("selector-btn-apply").addEventListener("click", async () => {
+      // Build new config from checked state.
+      const newCfg = {};
+      panel.querySelectorAll(".selector-item").forEach((item) => {
+        newCfg[item.dataset.repo] = { enabled: item.classList.contains("checked") };
+      });
+      saveConfig(newCfg);
+      closePanel();
+      await renderGrid(newCfg);
+
+      // Dev toast: show what to put in repos.json to make this permanent.
+      if (IS_LOCAL) {
+        const enabledList = Object.keys(newCfg).filter((k) => newCfg[k].enabled);
+        showDevToast(JSON.stringify(enabledList, null, 2));
+      }
+    });
+
+    return { panel, overlay };
+  }
+
+  // ── Dev toast (localhost only) ────────────────────────────────────────────
+
+  function showDevToast(json) {
+    document.getElementById("dev-toast")?.remove();
+    const toast = document.createElement("div");
+    toast.id = "dev-toast";
+    toast.innerHTML = `
+      <div class="dev-toast-header">
+        <span class="dev-toast-title">// repos.json</span>
+        <button class="dev-toast-close" aria-label="Close">×</button>
+      </div>
+      <p class="dev-toast-sub">Paste this into <code>repos.json</code> and push to update all visitors.</p>
+      <pre class="dev-toast-code">${json}</pre>
+      <button class="dev-toast-copy">Copy JSON</button>`;
+    document.body.appendChild(toast);
+
+    toast.querySelector(".dev-toast-close").addEventListener("click", () => toast.remove());
+    toast.querySelector(".dev-toast-copy").addEventListener("click", () => {
+      navigator.clipboard.writeText(json).then(() => {
+        const btn = toast.querySelector(".dev-toast-copy");
+        btn.textContent = "Copied!";
+        setTimeout(() => { btn.textContent = "Copy JSON"; }, 2000);
+      });
+    });
+
+    // Auto-dismiss after 20 seconds.
+    setTimeout(() => toast?.remove(), 20000);
+  }
+
+  // ── Init ──────────────────────────────────────────────────────────────────
+
+  async function init() {
+    // repos.json is the source of truth for what everyone sees.
+    const reposFromJson = await fetchReposJson();
+
+    let cfg;
+    if (IS_LOCAL) {
+      // On localhost: use localStorage preview if it exists, else seed from repos.json.
+      const stored = loadConfig();
+      if (stored) {
+        cfg = stored;
+      } else if (reposFromJson) {
+        cfg = listToCfg(reposFromJson);
+        saveConfig(cfg);
+      } else {
+        cfg = {};
+      }
+    } else {
+      // On live site: always use repos.json, ignore localStorage.
+      cfg = reposFromJson ? listToCfg(reposFromJson) : {};
+    }
+
+    // Render the grid immediately.
+    await renderGrid(cfg);
+
+    // Wire up the toggle button.
+    const toggleBtn = document.getElementById("selector-toggle");
+    if (!toggleBtn) return;
+
+    // Hide Manage Repos on live site. Use Konami code to unlock: ↑↑↓↓←→←→ba
+    if (!IS_LOCAL) {
+      toggleBtn.style.display = "none";
+      const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
+      let ki = 0;
+      document.addEventListener("keydown", (e) => {
+        if (e.key === KONAMI[ki]) { ki++; } else { ki = e.key === KONAMI[0] ? 1 : 0; }
+        if (ki === KONAMI.length) { ki = 0; toggleBtn.click(); }
+      });
+    }
+
+    toggleBtn.addEventListener("click", async () => {
+      const isOpen = document.getElementById("repo-selector-panel")?.classList.contains("open");
+      if (isOpen) {
+        document.getElementById("repo-selector-panel")?.classList.remove("open");
+        document.getElementById("repo-selector-overlay")?.classList.remove("open");
+        toggleBtn.classList.remove("open");
+        return;
+      }
+
+      // Load all public repos to populate the selector.
+      const allPublic = await fetchAllPublicRepos();
+
+      // Merge with config: known repos keep their enabled state; new ones default to disabled.
+      const freshCfg = loadConfig() || cfg;
+      allPublic.forEach((r) => {
+        if (!(r.name in freshCfg)) freshCfg[r.name] = { enabled: false };
+      });
+      saveConfig(freshCfg);
+
+      const { panel, overlay } = buildSelectorPanel(allPublic, freshCfg);
+
+      // Force a reflow then open.
+      requestAnimationFrame(() => {
+        panel.classList.add("open");
+        overlay.classList.add("open");
+        toggleBtn.classList.add("open");
+      });
+    });
+  }
+
+  // Kick off after the DOM is ready.
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
