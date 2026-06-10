@@ -3,6 +3,10 @@
   const canvas = document.getElementById("bg-canvas");
   if (!canvas) return;
 
+  // Disable expensive particle network on mobile/touch devices for performance
+  const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+  if (isTouchDevice || window.innerWidth <= 768) return;
+
   const ctx = canvas.getContext("2d");
   const nodes = [];
   const nodeCount = 80;
@@ -334,7 +338,7 @@ window.addEventListener("DOMContentLoaded", () => {
         }
       });
     },
-    { threshold: 0.45 }
+    { rootMargin: "-30% 0px -50% 0px" }
   );
 
   sectionMap.forEach((section) => observer.observe(section));
