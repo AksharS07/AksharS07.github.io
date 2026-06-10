@@ -112,7 +112,7 @@
       ctx.stroke();
       // Inner trailing ring (accent2 color)
       if (rpl.r > 22) {
-        ctx.strokeStyle = `rgba(167,139,250,${rpl.alpha * 0.35})`;
+        ctx.strokeStyle = `rgba(129,140,248,${rpl.alpha * 0.35})`;
         ctx.lineWidth = 0.8;
         ctx.beginPath();
         ctx.arc(rpl.x, rpl.y, rpl.r - 20, 0, Math.PI * 2);
@@ -229,7 +229,7 @@ window.addEventListener("DOMContentLoaded", () => {
       orb.style.animationDelay = `${delay}s`;
       orb.style.background = useAccent
         ? "radial-gradient(circle, rgba(79,142,247,0.5), transparent)"
-        : "radial-gradient(circle, rgba(167,139,250,0.5), transparent)";
+        : "radial-gradient(circle, rgba(129,140,248,0.5), transparent)";
 
       orbsContainer.appendChild(orb);
     }

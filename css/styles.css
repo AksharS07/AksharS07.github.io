@@ -4,7 +4,7 @@
   --fg: #f0ede6;
   --fg-muted: rgba(240, 237, 230, 0.45);
   --accent: #4f8ef7;
-  --accent2: #a78bfa;
+  --accent2: #818cf8;
   --mono: "JetBrains Mono", monospace;
   --sans: "Inter", sans-serif;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -340,7 +340,7 @@ body.no-custom-cursor .cursor-trail {
   letter-spacing: -0.02em;
   margin-bottom: 2.2rem;
   position: relative;
-  background: linear-gradient(92deg, rgba(79, 142, 247, 0.95) 0%, rgba(240, 237, 230, 0.98) 35%, rgba(167, 139, 250, 0.8) 50%, rgba(240, 237, 230, 0.98) 65%, rgba(79, 142, 247, 0.95) 100%);
+  background: linear-gradient(92deg, rgba(79, 142, 247, 0.95) 0%, rgba(240, 237, 230, 0.98) 35%, rgba(129, 140, 248, 0.8) 50%, rgba(240, 237, 230, 0.98) 65%, rgba(79, 142, 247, 0.95) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -364,7 +364,7 @@ body.no-custom-cursor .cursor-trail {
   height: 2px;
   margin-top: 0.9rem;
   border-radius: 999px;
-  background: linear-gradient(90deg, rgba(79, 142, 247, 0.95), rgba(167, 139, 250, 0.75), transparent 88%);
+  background: linear-gradient(90deg, rgba(79, 142, 247, 0.95), rgba(129, 140, 248, 0.75), transparent 88%);
 }
 
 .about-text {
@@ -642,8 +642,8 @@ body.no-custom-cursor .cursor-trail {
   padding: 1.75rem 2rem;
   grid-column: 1 / -1;                /* span full row — no empty cell */
   border-style: dashed;
-  border-color: rgba(167, 139, 250, 0.18);
-  background: rgba(167, 139, 250, 0.015);
+  border-color: rgba(129, 140, 248, 0.18);
+  background: rgba(129, 140, 248, 0.015);
   cursor: default;
   flex-direction: column;
   justify-content: space-between;
@@ -651,8 +651,8 @@ body.no-custom-cursor .cursor-trail {
 }
 
 .next-card:hover {
-  border-color: rgba(167, 139, 250, 0.4);
-  box-shadow: 0 0 40px rgba(167, 139, 250, 0.08), 0 16px 48px rgba(0, 0, 0, 0.32);
+  border-color: rgba(129, 140, 248, 0.4);
+  box-shadow: 0 0 40px rgba(129, 140, 248, 0.08), 0 16px 48px rgba(0, 0, 0, 0.32);
   transform: translateY(-4px);
 }
 
@@ -701,8 +701,8 @@ body.no-custom-cursor .cursor-trail {
   letter-spacing: 0.1em;
   text-transform: none;
   font-style: italic;
-  color: rgba(167, 139, 250, 0.55);
-  background: linear-gradient(to top, rgba(167, 139, 250, 0.06) 0%, transparent 100%);
+  color: rgba(129, 140, 248, 0.55);
+  background: linear-gradient(to top, rgba(129, 140, 248, 0.06) 0%, transparent 100%);
   opacity: 0;
   transform: translateY(6px);
   transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
@@ -748,7 +748,7 @@ body.no-custom-cursor .cursor-trail {
 }
 
 .next-glitch-name::after {
-  color: rgba(167, 139, 250, 0.55);
+  color: rgba(129, 140, 248, 0.55);
   animation: glitchBot 6s infinite;
   clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
 }
@@ -790,7 +790,7 @@ body.no-custom-cursor .cursor-trail {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(167,139,250,0.06), transparent);
+  background: linear-gradient(90deg, transparent, rgba(129,140,248,0.06), transparent);
   animation: redactShimmer 3.5s ease-in-out infinite;
 }
 
