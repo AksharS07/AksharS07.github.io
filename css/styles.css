@@ -1386,6 +1386,283 @@ body.no-custom-cursor .cursor-trail {
   will-change: transform;
 }
 
+/* ── Featured Project Card ─────────────────────────────────────────────────── */
+.featured-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(79, 142, 247, 0.18);
+  border-radius: 16px;
+  padding: 2.5rem;
+  background: rgba(79, 142, 247, 0.03);
+  backdrop-filter: blur(12px);
+  transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s;
+  grid-column: 1 / -1;
+  cursor: default;
+}
+
+/* Animated shimmer top bar */
+.featured-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--accent),
+    var(--accent2),
+    #a78bfa,
+    var(--accent2),
+    var(--accent)
+  );
+  background-size: 200% auto;
+  animation: featuredBarShine 4s linear infinite;
+}
+
+@keyframes featuredBarShine {
+  from { background-position: 0% 50%; }
+  to   { background-position: 200% 50%; }
+}
+
+/* Ambient glow orb — top-right corner */
+.featured-card::after {
+  content: "";
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(circle, rgba(79, 142, 247, 0.07) 0%, transparent 68%);
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.featured-card:hover {
+  border-color: rgba(79, 142, 247, 0.38);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45), 0 0 80px rgba(79, 142, 247, 0.06);
+  transform: translateY(-4px);
+}
+
+.featured-card-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+
+/* Left column */
+.featured-card-left {}
+
+.featured-badge {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(79, 142, 247, 0.1);
+  border: 1px solid rgba(79, 142, 247, 0.25);
+  border-radius: 999px;
+  padding: 0.28rem 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.featured-badge-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  animation: featuredPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes featuredPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.35; transform: scale(0.65); }
+}
+
+.featured-title {
+  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--fg);
+  margin-bottom: 0.35rem;
+}
+
+.featured-subtitle {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--accent2);
+  opacity: 0.85;
+  margin-bottom: 0.3rem;
+}
+
+.featured-role {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 1.35rem;
+}
+
+.featured-desc {
+  font-size: 0.9rem;
+  line-height: 1.85;
+  color: rgba(240, 237, 230, 0.68);
+  margin-bottom: 1.75rem;
+}
+
+.featured-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 2rem;
+}
+
+.featured-tech-pill {
+  font-family: var(--mono);
+  font-size: 0.63rem;
+  padding: 0.28rem 0.78rem;
+  border: 1px solid rgba(129, 140, 248, 0.28);
+  border-radius: 999px;
+  color: var(--accent2);
+  letter-spacing: 0.05em;
+  background: rgba(129, 140, 248, 0.06);
+}
+
+.featured-links {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.featured-link-btn {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.55rem 1.15rem;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.22s;
+  cursor: pointer;
+  border: none;
+}
+
+.featured-link-btn.primary {
+  background: rgba(79, 142, 247, 0.13);
+  border: 1px solid rgba(79, 142, 247, 0.38);
+  color: var(--accent);
+}
+
+.featured-link-btn.primary:hover {
+  background: rgba(79, 142, 247, 0.24);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 22px rgba(79, 142, 247, 0.22);
+}
+
+.featured-link-btn.secondary {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--fg-muted);
+}
+
+.featured-link-btn.secondary:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--fg);
+}
+
+/* Disabled / coming-soon state */
+.featured-link-wip {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  color: rgba(240, 237, 230, 0.3);
+  opacity: 0.65;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.featured-wip-badge {
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  padding: 0.1rem 0.4rem;
+  color: rgba(240, 237, 230, 0.38);
+  margin-left: 0.15rem;
+}
+
+/* Right column */
+.featured-card-right {}
+
+.featured-features-label {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 1.35rem;
+}
+
+.featured-features {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+}
+
+.featured-feature {
+  display: flex;
+  gap: 0.95rem;
+  align-items: flex-start;
+}
+
+.featured-feature-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(79, 142, 247, 0.1);
+  border: 1px solid rgba(79, 142, 247, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--accent);
+  margin-top: 2px;
+}
+
+.featured-feature-body {}
+
+.featured-feature-name {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--fg);
+  letter-spacing: 0.01em;
+  margin-bottom: 0.28rem;
+  line-height: 1.3;
+}
+
+.featured-feature-desc {
+  font-size: 0.8rem;
+  line-height: 1.68;
+  color: rgba(240, 237, 230, 0.5);
+}
+
 @media (max-width: 900px) {
   .top-nav {
     width: 94vw;
@@ -1395,6 +1672,11 @@ body.no-custom-cursor .cursor-trail {
 
   .nav-links {
     gap: 0.65rem;
+  }
+
+  .featured-card-inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
   }
 }
 
@@ -1480,6 +1762,18 @@ body.no-custom-cursor .cursor-trail {
 
   .projects-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .featured-card {
+    padding: 1.5rem;
+  }
+
+  .featured-card-inner {
+    gap: 2rem;
+  }
+
+  .featured-title {
+    font-size: clamp(1.2rem, 6vw, 1.6rem);
   }
 
   .coming-stage {
