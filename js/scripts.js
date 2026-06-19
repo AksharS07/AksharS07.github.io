@@ -558,7 +558,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const FEATURED_PROJECTS = {
     "dynamic-island-browser": {
       displayName: "Dynamic Island for Web",
-      subtitle: "Chrome Extension & Vivaldi Mod",
+      subtitle: "Chrome and Extension & Vivaldi Mod",
       role: "Lead Architect & QA",
       shortDesc:
         "A beautifully animated, Apple-style Dynamic Island that lives natively in your browser. " +
@@ -585,7 +585,7 @@ window.addEventListener("DOMContentLoaded", () => {
         {
           icon: `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
           name: "AI Pair-Programming",
-          desc: "Built entirely via Agentic AI pair-programming. Defined the product architecture, navigated undocumented browser APIs, and performed rigorous QA to catch edge-case Chromium bugs the AI missed."
+          desc: "Built entirely via Google Antigravity 2.0. Defined the product architecture, navigated undocumented browser APIs, and performed rigorous QA to catch edge-case Chromium bugs the AI missed."
         }
       ]
     }
