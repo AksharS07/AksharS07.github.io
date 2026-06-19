@@ -1,1 +1,5 @@
-["wattwise-ai", "dynamic-island-browser"]
+[
+  "proxmox-homelab",
+  "dynamic-island-browser",
+  "wattwise-ai"
+]
