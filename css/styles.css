@@ -1574,6 +1574,19 @@ body.no-custom-cursor .cursor-trail {
   box-shadow: 0 0 22px rgba(79, 142, 247, 0.22);
 }
 
+.featured-link-btn.store {
+  background: rgba(129, 140, 248, 0.13);
+  border: 1px solid rgba(129, 140, 248, 0.38);
+  color: var(--accent2);
+}
+
+.featured-link-btn.store:hover {
+  background: rgba(129, 140, 248, 0.24);
+  border-color: var(--accent2);
+  color: #fff;
+  box-shadow: 0 0 22px rgba(129, 140, 248, 0.22);
+}
+
 .featured-link-btn.secondary {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.1);
