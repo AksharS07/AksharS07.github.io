@@ -375,11 +375,70 @@ body.no-custom-cursor .cursor-trail {
   text-wrap: pretty;
 }
 
+.about-grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.quick-facts {
+  font-family: var(--mono);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.qf-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+}
+
+.qf-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.qf-value {
+  font-size: 0.82rem;
+  color: var(--fg);
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+
 .skills-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
   margin-top: 2rem;
+}
+
+.skills-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+  margin-top: 2rem;
+}
+
+.skills-category-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 1rem;
+}
+
+.skills-category .skills-grid {
+  margin-top: 0;
 }
 
 .skill-pill {
@@ -1370,6 +1429,7 @@ body.no-custom-cursor .cursor-trail {
 }
 
 .about-text,
+.quick-facts,
 .skills-grid .skill-pill,
 .project-card,
 .contact-links .contact-link,
@@ -1676,6 +1736,11 @@ body.no-custom-cursor .cursor-trail {
   color: rgba(240, 237, 230, 0.5);
 }
 
+@keyframes mobileBgPulse {
+  from { opacity: 0.65; }
+  to   { opacity: 1; }
+}
+
 @media (max-width: 900px) {
   .top-nav {
     width: 94vw;
@@ -1696,6 +1761,19 @@ body.no-custom-cursor .cursor-trail {
 @media (max-width: 768px) {
   .hero {
     padding: 0 6vw;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  /* Ambient background replaces the particle canvas on touch devices */
+  #bg-canvas {
+    background:
+      radial-gradient(ellipse 75% 50% at 12% 20%, rgba(79, 142, 247, 0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 70% at 88% 82%, rgba(129, 140, 248, 0.06) 0%, transparent 60%);
+    animation: mobileBgPulse 10s ease-in-out infinite alternate;
   }
 
   .about-section,

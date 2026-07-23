@@ -338,10 +338,19 @@ window.addEventListener("DOMContentLoaded", () => {
         }
       });
     },
-    { rootMargin: "-30% 0px -50% 0px" }
+    // Narrow trigger band ~30% from the top of the viewport
+    { rootMargin: "-30% 0px -69% 0px" }
   );
 
   sectionMap.forEach((section) => observer.observe(section));
+
+  // Fallback for contact section when scrolled to absolute bottom
+  window.addEventListener("scroll", () => {
+    if (window.innerHeight + Math.round(window.scrollY) >= document.body.offsetHeight - 10) {
+      links.forEach((l) => l.classList.remove("active"));
+      if (links.length > 0) links[links.length - 1].classList.add("active");
+    }
+  }, { passive: true });
 
   // Magnetic hover effect for interactive elements.
   document.querySelectorAll(".magnetic, .nav-links a").forEach((element) => {
@@ -415,6 +424,21 @@ window.addEventListener("DOMContentLoaded", () => {
           duration: 0.9,
           ease: "power3.out",
           scrollTrigger: { trigger: el, start: "top 80%" }
+        }
+      );
+    });
+
+    gsap.utils.toArray(".quick-facts").forEach((el) => {
+      gsap.fromTo(
+        el,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          delay: 0.15,
+          ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 82%" }
         }
       );
     });
@@ -558,12 +582,12 @@ window.addEventListener("DOMContentLoaded", () => {
   const FEATURED_PROJECTS = {
     "dynamic-island-browser": {
       displayName: "Dynamic Island for Web",
-      subtitle: "Chrome and Extension & Vivaldi Mod",
+      subtitle: "Chrome Extension & Vivaldi Mod",
       role: "Lead Architect & QA",
       shortDesc:
         "A beautifully animated, Apple-style Dynamic Island that lives natively in your browser. " +
-        "It syncs with media tabs, extracts album colors, displays live time-synced lyrics, " +
-        "and adds global Picture-in-Picture controls.",
+        "It supports Spotify Web, YouTube, & YouTube Music with a 60FPS Deep-Media Timer engine, " +
+        "Universal Picture-in-Picture teleportation, and live time-synced lyrics.",
       tech: ["Vanilla JavaScript", "CSS", "Chrome Extension API", "Browser Modding", "LRCLib API", "Apple Music API"],
       storeUrl: "https://microsoftedge.microsoft.com/addons/detail/jhglafdjkeohejcgfdmcfhenniahjgpk",
       features: [
@@ -574,18 +598,18 @@ window.addEventListener("DOMContentLoaded", () => {
         },
         {
           icon: `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`,
-          name: "High-Res Artwork & Vibrant Theming",
-          desc: "Cross-references tracks with the Apple Music API to pull crisp artwork, then uses a custom color-extraction algorithm to theme the Island's glow and UI elements in real time."
+          name: "Deep-Media Sync Engine",
+          desc: "Penetrates the DOM to extract true millisecond precision directly from active audio tags, mathematically filtering out hidden looping buffers for flawless 60FPS synchronization across Spotify and YouTube."
         },
         {
           icon: `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>`,
-          name: "Browser Architecture Hacking",
-          desc: "Engineered a 'Teleportation Hack' to bypass Chromium's strict security protocols, enabling global Picture-in-Picture controls seamlessly across background tabs in Vivaldi."
+          name: "Universal PiP Teleportation",
+          desc: "Engineered a 'Teleportation Hack' to bypass Chromium's strict cross-origin security rules, instantly teleporting you to the video tab, triggering Picture-in-Picture, and seamlessly teleporting you right back."
         },
         {
           icon: `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
           name: "AI Pair-Programming",
-          desc: "Built entirely via Google Antigravity 2.0. Defined the product architecture, navigated undocumented browser APIs, and performed rigorous QA to catch edge-case Chromium bugs the AI missed."
+          desc: "Built entirely via Agentic AI pair-programming. Defined the product architecture, navigated undocumented browser APIs, and performed rigorous QA to catch edge-case Chromium bugs the AI missed."
         }
       ]
     }
