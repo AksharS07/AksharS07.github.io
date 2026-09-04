@@ -582,7 +582,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const FEATURED_PROJECTS = {
     "glance": {
       displayName: "Glance",
-      subtitle: "Cross-Browser Extension (Chrome, Firefox, Edge, Zen, Brave)",
+      subtitle: "Cross-Browser Extension",
       role: "Lead Architect & QA",
       shortDesc:
         "A beautifully animated, Apple-style Media controller that lives natively in your browser. " +
