@@ -15,7 +15,7 @@
 ---
 
 ## 👨‍💻 About Me
-I am a second-year engineering student at Mangalore Institute of Technology and Engineering (MITE) specializing in **Computer Science**, on **Internet of Things (IoT)**, **Cybersecurity**, and **Blockchain Technology**. I am passionate about software prototyping, logic formulation.
+I am a third-year engineering student at Mangalore Institute of Technology and Engineering (MITE) specializing in **Computer Science**, on **Internet of Things (IoT)**, **Cybersecurity**, and **Blockchain Technology**. I am passionate about software prototyping, logic formulation.
 
 ---
 
