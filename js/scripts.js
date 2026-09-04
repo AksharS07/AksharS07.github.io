@@ -580,16 +580,16 @@ window.addEventListener("DOMContentLoaded", () => {
   // ── Featured project metadata ─────────────────────────────────────────────
   // Add an entry here to render a richer featured card instead of a plain repo card.
   const FEATURED_PROJECTS = {
-    "dynamic-island-browser": {
-      displayName: "Dynamic Island for Web",
-      subtitle: "Cross-Browser Extension (Chrome, Firefox, Edge)",
+    "glance": {
+      displayName: "Glance",
+      subtitle: "Cross-Browser Extension (Chrome, Firefox, Edge, Zen, Brave)",
       role: "Lead Architect & QA",
       shortDesc:
-        "A beautifully animated, Apple-style Dynamic Island that lives natively in your browser. " +
+        "A beautifully animated, Apple-style Media controller that lives natively in your browser. " +
         "It supports Spotify Web, Apple Music, YouTube, & YouTube Music with a 60FPS Deep-Media Timer engine, " +
         "Universal Picture-in-Picture teleportation, and live time-synced lyrics.",
       tech: ["Vanilla JavaScript", "CSS", "Chrome Extension API", "Browser Modding", "LRCLib API", "Apple Music API"],
-      edgeUrl: "https://microsoftedge.microsoft.com/addons/detail/ihblpkbkbaeojengejgbnlcpfnaneegh",
+      edgeUrl: "https://microsoftedge.microsoft.com/addons/detail/jhglafdjkeohejcgfdmcfhenniahjgpk",
       firefoxUrl: "https://addons.mozilla.org/en-US/firefox/addon/glance-for-web/",
       features: [
         {
