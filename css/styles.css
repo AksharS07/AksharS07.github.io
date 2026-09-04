@@ -1647,6 +1647,31 @@ body.no-custom-cursor .cursor-trail {
   box-shadow: 0 0 22px rgba(129, 140, 248, 0.22);
 }
 
+/* Store Button Brand Hints */
+.featured-link-btn.store.edge-btn {
+  background: rgba(0, 164, 239, 0.08);
+  border: 1px solid rgba(0, 164, 239, 0.3);
+  color: #82c8f8;
+}
+.featured-link-btn.store.edge-btn:hover {
+  background: rgba(0, 164, 239, 0.18);
+  border-color: rgba(0, 164, 239, 0.6);
+  color: #fff;
+  box-shadow: 0 0 22px rgba(0, 164, 239, 0.22);
+}
+
+.featured-link-btn.store.firefox-btn {
+  background: rgba(255, 113, 57, 0.08);
+  border: 1px solid rgba(255, 113, 57, 0.3);
+  color: #ffa887;
+}
+.featured-link-btn.store.firefox-btn:hover {
+  background: rgba(255, 113, 57, 0.18);
+  border-color: rgba(255, 113, 57, 0.6);
+  color: #fff;
+  box-shadow: 0 0 22px rgba(255, 113, 57, 0.22);
+}
+
 .featured-link-btn.secondary {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.1);
