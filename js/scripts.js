@@ -589,7 +589,7 @@ window.addEventListener("DOMContentLoaded", () => {
         "It supports Spotify Web, Apple Music, YouTube, & YouTube Music with a 60FPS Deep-Media Timer engine, " +
         "Universal Picture-in-Picture teleportation, and live time-synced lyrics.",
       tech: ["Vanilla JavaScript", "CSS", "Chrome Extension API", "Browser Modding", "LRCLib API", "Apple Music API"],
-      edgeUrl: "https://microsoftedge.microsoft.com/addons/detail/jhglafdjkeohejcgfdmcfhenniahjgpk",
+      edgeUrl: "https://microsoftedge.microsoft.com/addons/detail/glance/ihblpkbkbaeojengejgbnlcpfnaneegh",
       firefoxUrl: "https://addons.mozilla.org/en-US/firefox/addon/glance-for-web/",
       features: [
         {
