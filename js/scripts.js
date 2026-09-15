@@ -690,20 +690,30 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // ── Card rendering ────────────────────────────────────────────────────────
 
+  /** Map of repo names that have a dedicated product/landing page. */
+  const PRODUCT_PAGES = {
+    "glance": "/glance/"
+  };
+
   function buildRepoCard(repo, langs) {
     const name = repo.name;
     const desc = repo.description || "No description provided.";
     const url  = repo.html_url;
+    const productUrl = PRODUCT_PAGES[name] || null;
 
     const langPills = langs
       .slice(0, 4)
       .map((l) => `<span class="lang-pill">${l}</span>`)
       .join("");
 
+    const productBtn = productUrl
+      ? `<a class="repo-overlay-btn" href="${productUrl}" style="background:rgba(79,142,247,0.15);color:#4f8ef7;">View Product →</a>`
+      : "";
+
     return `
       <article class="repo-card" aria-label="${name}">
         <div class="repo-card-front">
-          <div class="repo-card-tag">// repo</div>
+          <div class="repo-card-tag">${productUrl ? "// product" : "// repo"}</div>
           <div class="repo-card-top">
             <span class="repo-card-name">${name}</span>
             <a class="repo-card-link" href="${url}" target="_blank" rel="noopener noreferrer"
@@ -723,6 +733,7 @@ window.addEventListener("DOMContentLoaded", () => {
           <p class="repo-overlay-desc">${desc}</p>
           ${langs.length ? `<div class="repo-overlay-langs">${langPills}</div>` : ""}
           <div class="repo-overlay-actions">
+            ${productBtn}
             <a class="repo-overlay-btn" href="${url}" target="_blank" rel="noopener noreferrer">
               View on GitHub →
             </a>
