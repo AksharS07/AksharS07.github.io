@@ -742,6 +742,48 @@ window.addEventListener("DOMContentLoaded", () => {
       </article>`;
   }
 
+  function buildProductCard(repo) {
+    const url = PRODUCT_PAGES[repo.name] || repo.html_url;
+    return `
+      <article class="product-card" onclick="triggerProductTakeover('${url}')" aria-label="${repo.name} Product">
+        <div class="product-card-glow"></div>
+        <div class="product-card-inner">
+          <div class="product-island">
+            <div class="product-eq">
+              <div class="product-eq-bar"></div><div class="product-eq-bar"></div><div class="product-eq-bar"></div>
+            </div>
+            <div class="product-island-text">
+              <span class="product-island-scroll">Glance · Dynamic Island for Web</span>
+            </div>
+            <div class="product-island-play">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-tag">// featured product</div>
+            <div class="product-name">Glance</div>
+            <div class="product-desc">Apple's Dynamic Island for your browser. Media controls, live lyrics, PiP, and Focus Mode.</div>
+            <div class="product-cta">View product →</div>
+          </div>
+        </div>
+      </article>`;
+  }
+
+  window.triggerProductTakeover = function(url) {
+    const takeover = document.createElement("div");
+    takeover.className = "product-takeover";
+    takeover.innerHTML = '<div class="takeover-island"></div>';
+    document.body.appendChild(takeover);
+    
+    // Force reflow
+    takeover.offsetHeight;
+    takeover.classList.add("active");
+    
+    setTimeout(() => {
+      window.location.href = url;
+    }, 600); // Wait for transition
+  };
+
   function buildNextCard() {
     return `
       <article class="repo-card next-card" aria-label="Next project — coming soon">
@@ -919,14 +961,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
     const regularHtml = results
       .filter((r) => r.repo !== null && !FEATURED_PROJECTS[r.name])
-      .map((r) => buildRepoCard(r.repo, r.langs))
+      .map((r) => PRODUCT_PAGES[r.name] ? buildProductCard(r.repo) : buildRepoCard(r.repo, r.langs))
       .join("");
 
     grid.innerHTML = featuredHtml + regularHtml + buildNextCard();
 
     // Bind hover cursor class to new cards.
     const cursor = document.getElementById("cursor");
-    grid.querySelectorAll(".repo-card:not(.next-card) a, .repo-card:not(.next-card) button, .featured-card a").forEach((el) => {
+    grid.querySelectorAll(".repo-card:not(.next-card) a, .repo-card:not(.next-card) button, .featured-card a, .product-card").forEach((el) => {
       if (!cursor) return;
       el.addEventListener("mouseenter", () => cursor.classList.add("hover"));
       el.addEventListener("mouseleave", () => cursor.classList.remove("hover"));
